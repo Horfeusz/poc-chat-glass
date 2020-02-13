@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>be.chat</groupId>
+    <artifactId>glass-chat-client</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <name>glass-chat-client</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>be.chat</groupId>
+            <artifactId>glass-chat-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/org.glassfish.main.appclient/gf-client -->
+        <dependency>
+            <groupId>org.glassfish.main.appclient</groupId>
+            <artifactId>gf-client</artifactId>
+            <version>5.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.glassfish.extras/appserv-rt -->
+        <dependency>
+            <groupId>org.glassfish.extras</groupId>
+            <artifactId>appserv-rt</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.glassfish.main.common/glassfish-naming -->
+
+        <!--
+        <dependency>
+            <groupId>org.glassfish.main.common</groupId>
+            <artifactId>glassfish-naming</artifactId>
+            <version>5.1.0</version>
+        </dependency>
+        -->
+
+        <!-- https://mvnrepository.com/artifact/javax/javaee-api -->
+        <!--
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>8.0</version>
+            <scope>provided</scope>
+        </dependency>
+        -->
+
+        <!-- https://mvnrepository.com/artifact/org.glassfish.main.deployment/deployment-client -->
+        <!--
+        <dependency>
+            <groupId>org.glassfish.main.deployment</groupId>
+            <artifactId>deployment-client</artifactId>
+            <version>5.0</version>
+            <scope>provided</scope>
+        </dependency>
+        -->
+
+        <!-- https://mvnrepository.com/artifact/org.glassfish.extras/appserv-rt -->
+        <!--
+        <dependency>
+            <groupId>org.glassfish.extras</groupId>
+            <artifactId>appserv-rt</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+        -->
+
+
+
+        <!-- https://mvnrepository.com/artifact/org.glassfish.corba/glassfish-corba -->
+        <!--
+        <dependency>
+            <groupId>org.glassfish.corba</groupId>
+            <artifactId>glassfish-corba</artifactId>
+            <version>4.2.1</version>
+            <type>pom</type>
+        </dependency>
+        -->
+
+        <!-- https://mvnrepository.com/artifact/org.glassfish.corba/glassfish-corba-asm -->
+        <!--
+        <dependency>
+            <groupId>org.glassfish.corba</groupId>
+            <artifactId>glassfish-corba-asm</artifactId>
+            <version>3.1.2-b002</version>
+        </dependency>
+        -->
+
+        <!-- https://mvnrepository.com/artifact/com.sun.corba/glassfish-corba-codegen -->
+        <!--
+        <dependency>
+            <groupId>com.sun.corba</groupId>
+            <artifactId>glassfish-corba-codegen</artifactId>
+            <version>3.2.0-b002</version>
+        </dependency>
+        -->
+
+        <!-- https://mvnrepository.com/artifact/com.sun.corba/glassfish-corba-csiv2-idl -->
+        <!--
+        <dependency>
+            <groupId>com.sun.corba</groupId>
+            <artifactId>glassfish-corba-csiv2-idl</artifactId>
+            <version>3.0.0-b002</version>
+        </dependency>
+        -->
+
+        <!-- https://mvnrepository.com/artifact/org.glassfish.corba/glassfish-corba-newtimer -->
+        <!--
+        <dependency>
+            <groupId>org.glassfish.corba</groupId>
+            <artifactId>glassfish-corba-newtimer</artifactId>
+            <version>3.1.2-b001</version>
+        </dependency>
+        -->
+
+        <!-- https://mvnrepository.com/artifact/org.glassfish.corba/glassfish-corba-omgapi -->
+        <!--
+        <dependency>
+            <groupId>org.glassfish.corba</groupId>
+            <artifactId>glassfish-corba-omgapi</artifactId>
+            <version>4.2.1</version>
+        </dependency>
+        -->
+        <!-- https://mvnrepository.com/artifact/org.glassfish.corba/glassfish-corba-orb -->
+        <!--
+        <dependency>
+            <groupId>org.glassfish.corba</groupId>
+            <artifactId>glassfish-corba-orb</artifactId>
+            <version>3.1.0-b032</version>
+        </dependency>
+        -->
+        <!-- https://mvnrepository.com/artifact/org.glassfish.corba/glassfish-corba-orbgeneric -->
+        <!--
+        <dependency>
+            <groupId>org.glassfish.corba</groupId>
+            <artifactId>glassfish-corba-orbgeneric</artifactId>
+            <version>3.1.2-b002</version>
+        </dependency>
+        -->
+
+
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>
