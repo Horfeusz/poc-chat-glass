@@ -4,4 +4,8 @@
 
 <sun-web-app error-url="">
     <context-root>api/glass-chat/v1</context-root>
+    <security-role-mapping>
+        <role-name>admin</role-name>
+        <group-name>admin</group-name>
+    </security-role-mapping>
 </sun-web-app>

@@ -1,29 +1,75 @@
 package be.chat.remote;
 
 import com.google.common.base.Throwables;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import org.wildfly.security.WildFlyElytronProvider;
+import org.wildfly.security.auth.client.AuthenticationConfiguration;
+import org.wildfly.security.auth.client.AuthenticationContext;
+import org.wildfly.security.auth.client.MatchRule;
+import org.wildfly.security.sasl.SaslMechanismSelector;
 
+import javax.annotation.Resource;
+import javax.ejb.LocalBean;
+import javax.ejb.SessionContext;
+import javax.ejb.Stateless;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import java.security.Principal;
+import java.security.Provider;
 import java.util.Hashtable;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.logging.Logger;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Stateless
+@LocalBean
 public class RemoteBeanUtil {
 
     private static final String REMOTE_HOST = "localhost";
 
     private static final String REMOTE_PORT = "8090";
 
-    private static Logger logger = Logger.getLogger(RemoteBeanUtil.class.getName());
+    private Logger logger = Logger.getLogger(RemoteBeanUtil.class.getName());
+
+    @Resource
+    private SessionContext sessionContext;
+
+    private String getCallerPrincipalName() {
+        return Optional.ofNullable(sessionContext)
+                .map(SessionContext::getCallerPrincipal)
+                .map(Principal::getName).orElseThrow(IllegalStateException::new);
+    }
+
+    private String getCallerPrincipalPassword() {
+        //FIXME Password get from DB
+        return "password123";
+    }
+
+    public <T> void lookup(Class<T> remoteClass, Consumer<T> consumer) {
+        AuthenticationConfiguration adminConfig =
+                AuthenticationConfiguration
+                        .empty()
+                        .useProviders(() -> new Provider[]{new WildFlyElytronProvider()})
+                        .setSaslMechanismSelector(SaslMechanismSelector.NONE.addMechanism("DIGEST-MD5"))
+                        .useName(getCallerPrincipalName())
+                        .usePassword(getCallerPrincipalPassword());
+        AuthenticationContext context = AuthenticationContext.empty();
+        context = context.with(MatchRule.ALL, adminConfig);
+        context.run(() -> {
+            try {
+                lookup(remoteClass).ifPresent(remote -> {
+                    logger.info("Obtained a remote object");
+                    consumer.accept(remote);
+                });
+            } catch (Exception e) {
+                logger.throwing("RemoteBeanUtil", "lookup", e);
+            }
+        });
+    }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public static <T> Optional<T> lookup(Class<T> remoteClass) {
+    public <T> Optional<T> lookup(Class<T> remoteClass) {
         final Hashtable jndiProperties = new Hashtable();
-
         jndiProperties.put(Context.INITIAL_CONTEXT_FACTORY, "org.wildfly.naming.client.WildFlyInitialContextFactory");
 
         //TODO Host and port get from parameters
@@ -37,15 +83,13 @@ public class RemoteBeanUtil {
         Object remoteObject = null;
         String jndiRemoteAddress = null;
         try {
-            final Context context = new InitialContext(jndiProperties);
+            Context context = new InitialContext(jndiProperties);
 
-            final String appName = "";
-
-            //TODO module name get from parameters
-            final String moduleName = "wildfly-chat";
+            String appName = "";
+            String moduleName = "wildfly-chat";
 
             // The EJB name which by default is the simple class name of the bean implementation class
-            final String beanName = "ChatBean";
+            String beanName = "ChatBean";
 
             // the remote view fully qualified class name
             final String viewClassName = remoteClass.getName();

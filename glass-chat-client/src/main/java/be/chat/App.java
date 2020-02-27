@@ -3,10 +3,13 @@ package be.chat;
 import be.chat.dto.MessageDTO;
 import org.glassfish.internal.api.ORBLocator;
 
+import javax.ejb.SessionContext;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Properties;
 
 public class App {
@@ -24,6 +27,9 @@ public class App {
                 "com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl");
         props.setProperty(ORBLocator.OMG_ORB_INIT_HOST_PROPERTY, REMOTE_HOST);
         props.setProperty(ORBLocator.OMG_ORB_INIT_PORT_PROPERTY, ORBLocator.DEFAULT_ORB_INIT_PORT);
+
+        props.put(Context.SECURITY_PRINCIPAL, "frank");
+        props.put(Context.SECURITY_CREDENTIALS, "password123");
 
         final Context context = new InitialContext(props);
         return (ChatRemote) context.lookup(ChatRemote.class.getName());
