@@ -3,7 +3,7 @@ package be.chat.rest;
 import be.chat.ChatRemote;
 import be.chat.dto.MessageDTO;
 import be.chat.dto.MessageDTOFactory;
-import be.chat.remote.RemoteBeanUtil;
+import be.chat.remote.WildflyRemoteUtil;
 import org.apache.commons.collections4.CollectionUtils;
 
 import javax.annotation.security.PermitAll;
@@ -17,7 +17,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -26,9 +25,7 @@ import java.util.logging.Logger;
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 @PermitAll
 public class MessageRest {
-
-    private Logger logger = Logger.getLogger(MessageRest.class.getName());
-
+    
     @Context
     private SecurityContext securityContext;
 
@@ -39,7 +36,7 @@ public class MessageRest {
     private ChatRemote chat;
 
     @EJB
-    private RemoteBeanUtil remoteBeanUtil;
+    private WildflyRemoteUtil wildflyRemoteUtil;
 
     @RolesAllowed("admin")
     @PUT
@@ -53,7 +50,7 @@ public class MessageRest {
                             chat.sendMessageDTO(messageDTO);
 
                             //I try send messages to WildFly
-                            remoteBeanUtil.lookup(ChatRemote.class,
+                            wildflyRemoteUtil.lookup(ChatRemote.class,
                                     chatRemote -> chatRemote.sendMessageDTO(messageDTO));
                         }));
 

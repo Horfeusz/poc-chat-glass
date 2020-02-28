@@ -12,7 +12,7 @@ import java.util.Optional;
 @LocalBean
 public class MessageDTOFactory {
 
-    private static final String GLASSFISH_PRINCIPAL_NAME = "GlassFish";
+    private static final String GLASSFISH_PRINCIPAL_NAME = "Default_GlassFish_Principal";
 
     @Resource
     private SessionContext sessionContext;

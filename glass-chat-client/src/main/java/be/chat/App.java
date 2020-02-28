@@ -1,23 +1,23 @@
 package be.chat;
 
 import be.chat.dto.MessageDTO;
+import com.sun.enterprise.security.ee.auth.login.ProgrammaticLogin;
 import org.glassfish.internal.api.ORBLocator;
 
-import javax.ejb.SessionContext;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.Properties;
 
 public class App {
 
     private static final String REMOTE_HOST = "127.0.0.1";
 
+    private static final String AUTH_CONF_PATH = "C:\\tmp\\auth.conf";
+
     private static ChatRemote lookupRemoteChat() throws NamingException {
-        final Properties props = new Properties();;
+        final Properties props = new Properties();
 
         props.setProperty(Context.INITIAL_CONTEXT_FACTORY,
                 "com.sun.enterprise.naming.SerialInitContextFactory");
@@ -28,8 +28,8 @@ public class App {
         props.setProperty(ORBLocator.OMG_ORB_INIT_HOST_PROPERTY, REMOTE_HOST);
         props.setProperty(ORBLocator.OMG_ORB_INIT_PORT_PROPERTY, ORBLocator.DEFAULT_ORB_INIT_PORT);
 
-        props.put(Context.SECURITY_PRINCIPAL, "frank");
-        props.put(Context.SECURITY_CREDENTIALS, "password123");
+        System.setProperty("java.security.auth.login.config", AUTH_CONF_PATH);
+        new ProgrammaticLogin().login("ejbuser", "password123".toCharArray());
 
         final Context context = new InitialContext(props);
         return (ChatRemote) context.lookup(ChatRemote.class.getName());
@@ -37,15 +37,10 @@ public class App {
 
     public static void main(String[] args) throws NamingException {
         final ChatRemote chat = lookupRemoteChat();
-
-        // invoke on the remote bean
-
-        //chat.sendMessage("Oficjalne słowo Testowe");
-
         chat.sendMessageDTO(MessageDTO.builder()
                 .owner("App-GlassFish-Client")
                 .time(LocalDateTime.now())
-                .message("Wiadmość numer 10 ze świata GlassFisza")
+                .message("Wiadmość numer 11 ze świata GlassFisza")
                 .build());
     }
 

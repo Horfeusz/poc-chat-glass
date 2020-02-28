@@ -27,7 +27,6 @@ public class ChatBean implements ChatRemote {
     @Override
     public void sendMessageDTO(MessageDTO messageDTO) {
         logger.info("Principal name: " + sessionContext.getCallerPrincipal().getName());
-        logger.info("Adding message to DB: " + messageDTO);
         db.addMessage(messageDTO);
     }
 
