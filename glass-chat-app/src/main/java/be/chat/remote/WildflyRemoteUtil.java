@@ -2,11 +2,11 @@ package be.chat.remote;
 
 import be.chat.ChatException;
 import com.google.common.base.Throwables;
-import org.wildfly.security.WildFlyElytronProvider;
 import org.wildfly.security.auth.client.AuthenticationConfiguration;
 import org.wildfly.security.auth.client.AuthenticationContext;
 import org.wildfly.security.auth.client.MatchRule;
 import org.wildfly.security.sasl.SaslMechanismSelector;
+import org.wildfly.security.sasl.digest.WildFlyElytronSaslDigestProvider;
 
 import javax.annotation.Resource;
 import javax.ejb.LocalBean;
@@ -48,11 +48,12 @@ public class WildflyRemoteUtil {
         return "password123";
     }
 
+    @SuppressWarnings("EjbProhibitedPackageUsageInspection")
     private AuthenticationContext prepareAuthenticationContext() {
         AuthenticationConfiguration adminConfig =
                 AuthenticationConfiguration
                         .empty()
-                        .useProviders(() -> new Provider[]{new WildFlyElytronProvider()})
+                        .useProviders(() -> new Provider[]{new WildFlyElytronSaslDigestProvider()})
                         .setSaslMechanismSelector(SaslMechanismSelector.NONE.addMechanism(SASL_MECHANISM))
                         .useName(getCallerPrincipalName())
                         .usePassword(getCallerPrincipalPassword());
