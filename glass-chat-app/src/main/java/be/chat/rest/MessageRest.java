@@ -19,7 +19,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 @Path("/message")
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
