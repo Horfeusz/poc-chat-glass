@@ -1,30 +1,29 @@
 package be.chat.rest;
 
 import be.chat.ChatRemote;
+import be.chat.client.RemoteUtil;
 import be.chat.dto.MessageDTO;
-import be.chat.dto.MessageDTOFactory;
-import be.chat.remote.WildflyRemoteUtil;
-import org.apache.commons.collections4.CollectionUtils;
+import be.chat.MessageDTOFactory;
+import be.chat.util.Consumer;
 
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ejb.Stateless;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.logging.Logger;
 
 @Path("/message")
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-@PermitAll
+@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+@Stateless
 public class MessageRest {
-    
+
+    private Logger logger = Logger.getLogger(this.getClass().getName());
+
     @Context
     private SecurityContext securityContext;
 
@@ -35,29 +34,43 @@ public class MessageRest {
     private ChatRemote chat;
 
     @EJB
-    private WildflyRemoteUtil wildflyRemoteUtil;
+    private RemoteUtil remoteUtil;
 
-    @RolesAllowed("admin")
     @PUT
-    public Response sendMessage(MessagesContainer messagesContainer) {
-        Optional.of(messagesContainer)
-                .map(MessagesContainer::getMessages)
-                .filter(CollectionUtils::isNotEmpty)
-                .ifPresent(messages -> messages.stream()
-                        .map(messageDTOFactory::create)
-                        .forEach(messageDTO -> {
-                            chat.sendMessageDTO(messageDTO);
+    public void sendMessage(MessagesContainer messagesContainer) {
+        if (messagesContainer == null) {
+            return;
+        }
+        if (messagesContainer.getMessages() == null) {
+            return;
+        }
+        if (messageDTOFactory == null) {
+            logger.warning("messageDTOFactory is null");
+            return;
+        }
+        if (chat == null) {
+            logger.warning("chat is null");
+            return;
+        }
 
-                            //I try send messages to WildFly
-                            wildflyRemoteUtil.lookup(ChatRemote.class,
-                                    chatRemote -> chatRemote.sendMessageDTO(messageDTO));
-                        }));
-
-        return Response.ok().build();
+        for (String message : messagesContainer.getMessages()) {
+            final MessageDTO messageDTO = messageDTOFactory.create(message);
+            chat.sendMessageDTO(messageDTO);
+            remoteUtil.lookup(ChatRemote.class, new Consumer<ChatRemote>() {
+                @Override
+                public void accept(ChatRemote chatRemote) {
+                    chatRemote.sendMessageDTO(messageDTO);
+                }
+            });
+        }
     }
 
     @GET
     public List<MessageDTO> getDtoMessages() {
+        if (chat == null) {
+            logger.warning("Chat bean is null !!!");
+            return new ArrayList<>();
+        }
         return chat.getDTOMessages();
     }
 

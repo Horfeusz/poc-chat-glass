@@ -1,0 +1,14 @@
+database:
+  image: poc-postgres-image
+  ports:
+    - "5432:5432"
+
+glassfish:
+  image: poc-glassfish-image
+  links:
+    - database
+  ports:
+    - "8080:8080"
+    - "8181:8181"
+    - "4848:4848"
+    - "3700:3700"

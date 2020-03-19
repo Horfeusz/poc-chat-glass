@@ -1,18 +1,17 @@
 package be.chat;
 
 import be.chat.dto.MessageDTO;
-import com.sun.enterprise.security.ee.auth.login.ProgrammaticLogin;
-import org.glassfish.internal.api.ORBLocator;
+//import com.sun.enterprise.security.ee.auth.login.ProgrammaticLogin;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Properties;
 
-public class StandaloneClient {
+public class StandaloneClientToGlassFish {
 
-    private static final String REMOTE_HOST = "127.0.0.1";
+    private static final String REMOTE_HOST = "localhost";
 
     private static final String AUTH_CONF_PATH = "C:\\tmp\\auth.conf";
 
@@ -30,13 +29,13 @@ public class StandaloneClient {
                 "com.sun.enterprise.naming");
         props.setProperty(Context.STATE_FACTORIES,
                 "com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl");
-        props.setProperty(ORBLocator.OMG_ORB_INIT_HOST_PROPERTY,
+        props.setProperty("org.omg.CORBA.ORBInitialHost",
                 REMOTE_HOST);
-        props.setProperty(ORBLocator.OMG_ORB_INIT_PORT_PROPERTY,
-                ORBLocator.DEFAULT_ORB_INIT_PORT);
+        props.setProperty("org.omg.CORBA.ORBInitialPort",
+                "3700");
 
-        System.setProperty("java.security.auth.login.config", AUTH_CONF_PATH);
-        new ProgrammaticLogin().login(USER, PASSWORD.toCharArray());
+        //System.setProperty("java.security.auth.login.config", AUTH_CONF_PATH);
+        //new ProgrammaticLogin().login(USER, PASSWORD.toCharArray());
 
         final Context context = new InitialContext(props);
         return (ChatRemote) context.lookup(ChatRemote.class.getName());
@@ -46,7 +45,7 @@ public class StandaloneClient {
         final ChatRemote chat = lookupRemoteChat();
         chat.sendMessageDTO(MessageDTO.builder()
                 .owner("App-GlassFish-Client")
-                .time(LocalDateTime.now())
+                .time(new Date())
                 .message("Message from GlassFish word (Standalone client).")
                 .build());
     }
