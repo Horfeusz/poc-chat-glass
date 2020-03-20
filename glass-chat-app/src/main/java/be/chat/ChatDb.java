@@ -4,6 +4,8 @@ import be.chat.dto.MessageDTO;
 import lombok.Getter;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Singleton;
 import java.util.ArrayList;
 import java.util.List;

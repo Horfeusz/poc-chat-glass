@@ -1,7 +1,7 @@
 package be.chat;
 
 import be.chat.dto.MessageDTO;
-//import com.sun.enterprise.security.ee.auth.login.ProgrammaticLogin;
+import com.sun.enterprise.security.ee.auth.login.ProgrammaticLogin;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -15,9 +15,9 @@ public class StandaloneClientToGlassFish {
 
     private static final String AUTH_CONF_PATH = "C:\\tmp\\auth.conf";
 
-    private static final String USER = "ejbuser";
+    private static final String USER = "Hendrik";
 
-    private static final String PASSWORD = "password123";
+    private static final String PASSWORD = "Hendrik123";
 
 
     private static ChatRemote lookupRemoteChat() throws NamingException {
@@ -34,8 +34,8 @@ public class StandaloneClientToGlassFish {
         props.setProperty("org.omg.CORBA.ORBInitialPort",
                 "3700");
 
-        //System.setProperty("java.security.auth.login.config", AUTH_CONF_PATH);
-        //new ProgrammaticLogin().login(USER, PASSWORD.toCharArray());
+        System.setProperty("java.security.auth.login.config", AUTH_CONF_PATH);
+        new ProgrammaticLogin().login(USER, PASSWORD.toCharArray());
 
         final Context context = new InitialContext(props);
         return (ChatRemote) context.lookup(ChatRemote.class.getName());

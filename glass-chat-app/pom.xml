@@ -27,6 +27,12 @@
         </dependency>
 
         <dependency>
+            <groupId>be.chat</groupId>
+            <artifactId>glass-chat-model</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-json</artifactId>
             <version>1.17.1</version>

@@ -1,11 +1,13 @@
 package be.chat.rest;
 
 import be.chat.ChatRemote;
+import be.chat.MessageDTOFactory;
 import be.chat.client.RemoteUtil;
 import be.chat.dto.MessageDTO;
-import be.chat.MessageDTOFactory;
 import be.chat.util.Consumer;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.*;
@@ -20,6 +22,7 @@ import java.util.logging.Logger;
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
 @Stateless
+@PermitAll
 public class MessageRest {
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
@@ -36,6 +39,7 @@ public class MessageRest {
     @EJB
     private RemoteUtil remoteUtil;
 
+    @RolesAllowed("manager")
     @PUT
     public void sendMessage(MessagesContainer messagesContainer) {
         if (messagesContainer == null) {

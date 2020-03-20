@@ -14,6 +14,7 @@
         <module>glass-chat-client</module>
         <module>glass-chat-docker</module>
         <module>glass-chat-remote</module>
+        <module>glass-chat-model</module>
     </modules>
 
     <name>glass-chat</name>

@@ -10,8 +10,8 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-COPY password_1.txt /tmp
-COPY password_2.txt /tmp
+COPY ../../password_1.txt /tmp
+COPY ../../password_2.txt /tmp
 COPY postgresql-42.2.11.jre7.jar ${GLASSFISH_HOME}/glassfish/domains/domain1/lib
 
 RUN asadmin --user admin --passwordfile /tmp/password_1.txt change-admin-password --domain_name domain1 ; asadmin start-domain domain1 ; asadmin --user admin --passwordfile /tmp/password_2.txt enable-secure-admin ; asadmin stop-domain domain1
