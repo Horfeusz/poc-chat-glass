@@ -15,9 +15,9 @@ public class StandaloneClientToGlassFish {
 
     private static final String AUTH_CONF_PATH = "C:\\tmp\\auth.conf";
 
-    private static final String USER = "Hendrik";
+    private static final String USER = "Michal";
 
-    private static final String PASSWORD = "Hendrik123";
+    private static final String PASSWORD = "Michal123";
 
 
     private static ChatRemote lookupRemoteChat() throws NamingException {
