@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 @PermitAll
 public class RemoteUtil {
 
-    private Logger logger = Logger.getLogger(RemoteUtil.class.getName());
+    private Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Resource
     private SessionContext sessionContext;

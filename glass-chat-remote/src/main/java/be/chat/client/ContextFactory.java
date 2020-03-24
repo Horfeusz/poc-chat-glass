@@ -3,6 +3,7 @@ package be.chat.client;
 import be.chat.model.User;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 import org.jboss.ejb.client.ContextSelector;
 import org.jboss.ejb.client.EJBClientConfiguration;
 import org.jboss.ejb.client.EJBClientContext;
@@ -13,7 +14,9 @@ import javax.ejb.Singleton;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import java.util.*;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.Properties;
 
 @Singleton
 public class ContextFactory {
@@ -26,14 +29,14 @@ public class ContextFactory {
 
     private static final String DEFAULT_REMOTE_PORT = "8090";
 
-    private Map<User, Context> contexts = new HashMap<>();
+    private Map<String, Context> contexts = Maps.newHashMap();
 
     public Context getContext(User user) throws NamingException {
-        if (contexts.containsKey(user)) {
-            return contexts.get(user);
+        if (contexts.containsKey(user.getLogin())) {
+            return contexts.get(user.getLogin());
         }
         initContext(user);
-        return contexts.get(user);
+        return contexts.get(user.getLogin());
     }
 
     private String getRemoteHost() {
@@ -63,7 +66,7 @@ public class ContextFactory {
         final Hashtable jndiProperties = new Hashtable();
         jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
 
-        contexts.put(user, new InitialContext(jndiProperties));
+        contexts.put(user.getLogin(), new InitialContext(jndiProperties));
     }
 
 }
