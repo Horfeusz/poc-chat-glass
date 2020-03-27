@@ -29,7 +29,7 @@
     </security-constraint>
     <login-config>
         <auth-method>BASIC</auth-method>
-        <realm-name>PocRealm</realm-name>
+        <realm-name>PocHashRealm</realm-name>
     </login-config>
     <security-role>
         <role-name>manager</role-name>

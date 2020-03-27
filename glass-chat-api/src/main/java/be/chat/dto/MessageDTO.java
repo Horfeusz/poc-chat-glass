@@ -19,4 +19,5 @@ public class MessageDTO implements Serializable {
     private Date time;
 
     private String message;
+    
 }

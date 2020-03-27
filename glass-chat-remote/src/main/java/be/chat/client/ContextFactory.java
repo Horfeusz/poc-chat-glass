@@ -58,7 +58,7 @@ public class ContextFactory {
         properties.put("remote.connection.default.host", getRemoteHost());
         properties.put("remote.connection.default.port", getRemotePort());
         properties.put("remote.connection.default.username", user.getLogin());
-        properties.put("remote.connection.default.password", user.getPassword());
+        properties.put("remote.connection.default.password", user.getHashPassword());
         EJBClientConfiguration ejbClientConfiguration = new PropertiesBasedEJBClientConfiguration(properties);
         ContextSelector<EJBClientContext> contextSelector = new ConfigBasedEJBClientContextSelector(ejbClientConfiguration);
         EJBClientContext.setSelector(contextSelector);

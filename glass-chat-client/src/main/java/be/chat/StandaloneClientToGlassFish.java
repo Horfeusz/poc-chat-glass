@@ -17,7 +17,7 @@ public class StandaloneClientToGlassFish {
 
     private static final String USER = "Michal";
 
-    private static final String PASSWORD = "Michal123";
+    private static final String PASSWORD = "ece9044722c614c8fc9b6553f3856f170ab4fb14db06a4f2afc83d1f2399e337";
 
 
     private static ChatRemote lookupRemoteChat() throws NamingException {
