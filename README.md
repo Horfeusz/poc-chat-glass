@@ -12,14 +12,13 @@ Source application for WildFly [Wildfy]
 ### Security
 The Application will be use JDBC-realm. In the sources is located docker image.
 This image create database PostgreSQL. Script [init.sql] create examples structure and realms.\
-The image can create the commend:
+The image can create the command:
 ```sh
 docker build -t poc-image-postgres .
 ```
 
 ### Copy JDBC driver to Server: 
-File postgresql-42.2.11.jre7.jar to ${GLASSFISH_HOME}/glassfish/domains/domain1/lib
-Get driver from net or glass-chat-docker/src/main/docker/postgresql-42.2.11.jre7.jar
+Copy file [postgresql-42.2.11.jre7.jar] to ${GLASSFISH_HOME}/glassfish/domains/domain1/lib
 
 ### Run commands from file init.bat.
 Full Script is in glass-chat-docker/src folder.
@@ -68,5 +67,6 @@ asadmin --user admin --passwordfile password_2.txt create-system-properties --ta
 asadmin --user admin --passwordfile password_2.txt create-system-properties --target server-config poc-chat-wildfly-port=8090
 ```
 
-[init.sql]: https://github.com/Horfeusz/poc-chat/blob/master/wildfly-chat-docker/src/main/docker/postgres/init.sql
+[init.sql]: https://github.com/Horfeusz/poc-chat-glass/blob/master/glass-chat-docker/src/main/docker/postgres/init.sql
 [Wildfy]: https://github.com/Horfeusz/poc-chat
+[postgresql-42.2.11.jre7.jar]: https://jdbc.postgresql.org/download/postgresql-42.2.11.jre7.jar 
