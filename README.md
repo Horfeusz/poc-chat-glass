@@ -48,14 +48,14 @@ Start domain first.
 ```sh
 asadmin --user admin --passwordfile password_2.txt set server.security-service.property.default-digest-algorithm=none
 ```
-#### Create authentication realm for web
-This realm will be used for REST and WebServices \
+#### Create authentication realm for remote EJB
+This realm will be used for remote EJB communication \
 Start domain first.
 ```sh
 asadmin --user admin --passwordfile password_2.txt create-auth-realm --classname com.sun.enterprise.security.auth.realm.jdbc.JDBCRealm --property "jaas-context=jdbcRealm:datasource-jndi=jdbc/PocSecurityDS:user-table=poc_user:user-name-column=login:password-column=hash_password:group-table=vrole_use:group-name-column=name:group-table-user-name-column=login" PocRealm
 ```
-#### Create authentication realm for remote EJB
-This realm will be used for remote EJB communication \
+#### Create authentication realm for web
+This realm will be used for REST and WebServices \
 Start domain first.
 ```sh
 asadmin --user admin --passwordfile c:/password_2.txt create-auth-realm --classname com.sun.enterprise.security.auth.realm.jdbc.JDBCRealm --property "jaas-context=jdbcRealm:datasource-jndi=jdbc/PocSecurityDS:digest-algorithm=SHA-256:user-table=poc_user:user-name-column=login:password-column=hash_password:group-table=vrole_use:group-name-column=name:group-table-user-name-column=login" PocHashRealm
